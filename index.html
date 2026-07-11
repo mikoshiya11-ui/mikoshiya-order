@@ -434,8 +434,7 @@
     <div class="cart-total-amount" id="cart-total-display">¥0</div>
   </div>
   <div class="order-note">
-    🦉 注文確定後、スタッフがお持ちします。<br>
-    お席でしばらくお待ちください。<br>
+    🦉 注文確定後、ご自由にお取りください。<br>
     お支払いは退室時にまとめてご精算いただけます。
   </div>
   <button class="confirm-btn" id="confirm-btn" onclick="submitOrder()">
@@ -447,7 +446,7 @@
 <div class="screen complete-screen" id="screen-complete">
   <div class="complete-owl">🦉</div>
   <div class="complete-title">ご注文ありがとうございます！</div>
-  <div class="complete-msg">少々お待ちください。<br>スタッフがお持ちします。</div>
+  <div class="complete-msg">ご自由にお取りください。<br>退室時にまとめてご精算いただけます。</div>
   <div class="order-number-box">
     <div class="order-number-label">注文番号</div>
     <div class="order-number" id="order-number-display">#----</div>
@@ -485,19 +484,15 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbzi7IYrF2rLjrICNzuRTjtY
 const PRODUCTS = {
   'ドリンク': [
     { id: 'D001', name: 'ブラックコーヒー', price: 140, emoji: '☕', desc: 'ホット or アイス' },
-    { id: 'D002', name: 'カフェラテ',       price: 160, emoji: '🥛', desc: 'ホット or アイス' },
-    { id: 'D003', name: '緑茶',             price: 110, emoji: '🍵', desc: 'ホット or アイス' },
-    { id: 'D004', name: 'コーラ',           price: 130, emoji: '🥤', desc: 'コカ・コーラ 350ml' },
-    { id: 'D005', name: 'ミネラルウォーター', price: 100, emoji: '💧', desc: '500ml' },
-    { id: 'D006', name: 'アイスティー',      price: 130, emoji: '🧊', desc: 'ストレート' },
+    { id: 'D003', name: '緑茶',             price: 100, emoji: '🍵', desc: 'ホット or アイス' },
+    { id: 'D003', name: 'カップラーメン',    price: 200, emoji: '🍜', desc: 'カップ焼きそば含む' },
+    
   ],
   'コワーキング': [
+    { id: 'C003', name: 'MeetingRoom利用（30分）', price: 704, emoji: '🏢', desc: '複数名可' },
     { id: 'C001', name: '白黒印刷',         price: 10,  emoji: '🖨️', desc: '1枚あたり（A4）' },
     { id: 'C002', name: 'カラー印刷',        price: 50,  emoji: '🖨️', desc: '1枚あたり（A4）' },
-    { id: 'C003', name: '会議室延長（30分）', price: 220, emoji: '🏢', desc: '現在の予約に追加' },
-    { id: 'C004', name: 'ロッカー利用（1日）',price: 100, emoji: '🔐', desc: '鍵付きロッカー' },
-    { id: 'C005', name: 'ガムテープ',        price: 30,  emoji: '📦', desc: '1本貸出' },
-    { id: 'C006', name: 'はさみ・カッター',  price: 0,   emoji: '✂️', desc: '無料貸出' },
+
   ],
 };
 
