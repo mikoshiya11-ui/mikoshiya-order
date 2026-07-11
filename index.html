@@ -648,16 +648,24 @@ async function submitOrder() {
   const allProducts = Object.values(PRODUCTS).flat();
   const items = Object.entries(cart).map(([id, qty]) => {
     const p = allProducts.find(x => x.id === id);
-    return p ? { id: p.id, name: p.name, price: p.price, qty } : null;
+    return p ? { name: p.name, price: p.price, qty } : null;
   }).filter(Boolean);
 
   const { total } = getCartSummary();
+
+  // 注文番号をクライアントで生成
+  const now = new Date();
+  const orderNum = now.getHours().toString().padStart(2,'0')
+                 + now.getMinutes().toString().padStart(2,'0')
+                 + now.getSeconds().toString().padStart(2,'0');
+
+  // ★ GASが期待するフォーマット
   const payload = {
-    action: 'receiveOrder',
-    uid: uid,
+    type: 'webOrder',
+    lineUID: uid,
+    orderNum: orderNum,
     items: items,
     total: total,
-    timestamp: new Date().toISOString(),
   };
 
   try {
@@ -668,11 +676,11 @@ async function submitOrder() {
     });
     const data = await res.json();
 
-    if (data.success) {
-      document.getElementById('order-number-display').textContent = `#${String(data.orderNo).padStart(4, '0')}`;
+    if (data.ok) {
+      document.getElementById('order-number-display').textContent = '#' + orderNum;
       showScreen('complete');
     } else {
-      throw new Error(data.error || '不明なエラー');
+      throw new Error(data.message || '不明なエラー');
     }
   } catch (err) {
     console.error(err);
@@ -682,7 +690,6 @@ async function submitOrder() {
     btn.disabled = false;
   }
 }
-
 // ============================================================
 // リセット
 // ============================================================
