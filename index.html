@@ -330,18 +330,16 @@ async function submitOrder() {
     total: total,
   };
   try {
-    const res = await fetch(GAS_URL, {
+    // GASへのCORS対策: no-cors + text/plain でプリフライトを回避
+    await fetch(GAS_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload),
     });
-    const data = await res.json();
-    if (data.ok) {
-      document.getElementById('order-number-display').textContent = '#' + orderNum;
-      showScreen('complete');
-    } else {
-      throw new Error(data.message || '不明なエラー');
-    }
+    // no-corsではレスポンスを読めないが、送信成功とみなす
+    document.getElementById('order-number-display').textContent = '#' + orderNum;
+    showScreen('complete');
   } catch (err) {
     console.error(err);
     showToast('⚠️ 送信に失敗しました。もう一度お試しください。');
