@@ -606,14 +606,15 @@ function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(`screen-${name}`).classList.add('active');
 
-  // カートバーはメニュー画面のみ表示
   const cartBar = document.getElementById('cart-bar');
   if (name === 'menu') {
     updateCartBar();
   } else {
-    cartBar.classList.remove('visible'); // ← 他画面では隠す
+    cartBar.classList.remove('visible');
   }
 
+  if (name === 'cart') renderCart();
+}
   if (name === 'cart') renderCart();
 }
 function renderCart() {
