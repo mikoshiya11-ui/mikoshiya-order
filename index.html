@@ -6,7 +6,6 @@
   <title>🦉 MIKOSHIYA セルフ注文</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ===== CSS VARIABLES ===== */
     :root {
       --crimson:   #800020;
       --crimson-d: #5a0016;
@@ -21,407 +20,94 @@
       --divider:   #4A2010;
       --success:   #4CAF50;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      font-family: 'Noto Sans JP', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ===== SCREENS ===== */
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
     .screen { display: none; flex-direction: column; min-height: 100vh; }
     .screen.active { display: flex; }
-
-    /* ===== HEADER ===== */
     .header {
       background: linear-gradient(135deg, var(--crimson-d) 0%, var(--crimson) 100%);
-      padding: 16px 16px 12px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
-      border-bottom: 2px solid var(--gold);
+      padding: 16px 16px 12px; text-align: center; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5); border-bottom: 2px solid var(--gold);
     }
-    .header-logo {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.15em;
-    }
+    .header-logo { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 0.15em; }
     .header-logo span { color: var(--text); font-size: 14px; font-weight: 400; letter-spacing: 0.1em; }
-    .header-sub {
-      font-size: 11px;
-      color: rgba(255,255,255,0.7);
-      margin-top: 2px;
-      letter-spacing: 0.05em;
-    }
-
-    /* ===== CATEGORY TABS ===== */
-    .tabs {
-      display: flex;
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--divider);
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
+    .header-sub { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; letter-spacing: 0.05em; }
+    .tabs { display: flex; background: var(--bg-card); border-bottom: 1px solid var(--divider); overflow-x: auto; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
-    .tab {
-      flex: 1;
-      min-width: 80px;
-      padding: 12px 8px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .tab.active {
-      color: var(--gold);
-      border-bottom-color: var(--gold);
-      font-weight: 600;
-    }
-
-    /* ===== PRODUCT LIST ===== */
-    .product-list {
-      flex: 1;
-      padding: 12px 12px 100px;
-      overflow-y: auto;
-    }
-
-    .category-label {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 13px;
-      color: var(--gold);
-      letter-spacing: 0.1em;
-      margin: 16px 0 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .category-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--divider);
-    }
-
-    .product-card {
-      background: var(--bg-card);
-      border: 1px solid var(--divider);
-      border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: border-color 0.2s;
-    }
-    .product-card.has-qty {
-      border-color: var(--gold);
-    }
-    .product-emoji {
-      font-size: 32px;
-      min-width: 44px;
-      text-align: center;
-      line-height: 1;
-    }
+    .tab { flex: 1; min-width: 80px; padding: 12px 8px; text-align: center; font-size: 13px; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+    .tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
+    .product-list { flex: 1; padding: 12px 12px 100px; overflow-y: auto; }
+    .category-label { font-family: 'Noto Serif JP', serif; font-size: 13px; color: var(--gold); letter-spacing: 0.1em; margin: 16px 0 10px; display: flex; align-items: center; gap: 8px; }
+    .category-label::after { content: ''; flex: 1; height: 1px; background: var(--divider); }
+    .product-card { background: var(--bg-card); border: 1px solid var(--divider); border-radius: 10px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s; }
+    .product-card.has-qty { border-color: var(--gold); }
+    .product-emoji { font-size: 32px; min-width: 44px; text-align: center; line-height: 1; }
     .product-info { flex: 1; min-width: 0; }
-    .product-name {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 3px;
-    }
-    .product-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-    .product-price {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--gold);
-    }
+    .product-name { font-family: 'Noto Serif JP', serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .product-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+    .product-price { font-size: 16px; font-weight: 700; color: var(--gold); }
     .product-price span { font-size: 11px; font-weight: 400; }
-
-    .qty-control {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      background: var(--bg);
-      border: 1px solid var(--divider);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .qty-btn {
-      width: 36px;
-      height: 36px;
-      border: none;
-      background: none;
-      color: var(--gold);
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s;
-    }
+    .qty-control { display: flex; align-items: center; background: var(--bg); border: 1px solid var(--divider); border-radius: 8px; overflow: hidden; }
+    .qty-btn { width: 36px; height: 36px; border: none; background: none; color: var(--gold); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
     .qty-btn:active { background: var(--divider); }
-    .qty-num {
-      min-width: 28px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    /* ===== CART BAR ===== */
-    .cart-bar {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: var(--crimson);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.6);
-      transform: translateY(100%);
-      transition: transform 0.3s ease;
-      z-index: 200;
-    }
+    .qty-num { min-width: 28px; text-align: center; font-size: 16px; font-weight: 600; color: var(--text); }
+    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--crimson); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -4px 20px rgba(0,0,0,0.6); transform: translateY(100%); transition: transform 0.3s ease; z-index: 200; }
     .cart-bar.visible { transform: translateY(0); }
     .cart-bar-info { display: flex; flex-direction: column; }
     .cart-bar-count { font-size: 12px; color: rgba(255,255,255,0.8); }
     .cart-bar-total { font-size: 20px; font-weight: 700; color: var(--gold); }
-    .cart-bar-btn {
-      background: var(--gold);
-      color: var(--bg);
-      border: none;
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-family: 'Noto Serif JP', serif;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* ===== CART SCREEN ===== */
-    .cart-header {
-      background: linear-gradient(135deg, var(--crimson-d), var(--crimson));
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 2px solid var(--gold);
-    }
-    .back-btn {
-      background: none;
-      border: 1px solid rgba(255,255,255,0.4);
-      color: var(--text);
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .cart-title {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--gold);
-      flex: 1;
-    }
-
+    .cart-bar-btn { background: var(--gold); color: var(--bg); border: none; border-radius: 8px; padding: 12px 20px; font-family: 'Noto Serif JP', serif; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .cart-header { background: linear-gradient(135deg, var(--crimson-d), var(--crimson)); padding: 16px; display: flex; align-items: center; gap: 12px; border-bottom: 2px solid var(--gold); }
+    .back-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: var(--text); border-radius: 6px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+    .cart-title { font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 700; color: var(--gold); flex: 1; }
     .cart-items { flex: 1; overflow-y: auto; padding: 16px 12px; }
-
-    .cart-item {
-      background: var(--bg-card);
-      border: 1px solid var(--divider);
-      border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .cart-item { background: var(--bg-card); border: 1px solid var(--divider); border-radius: 10px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
     .cart-item-emoji { font-size: 28px; min-width: 40px; text-align: center; }
     .cart-item-info { flex: 1; }
     .cart-item-name { font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 600; }
     .cart-item-unit { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
     .cart-item-subtotal { font-size: 16px; font-weight: 700; color: var(--gold); text-align: right; }
-
-    .cart-divider {
-      height: 1px;
-      background: var(--divider);
-      margin: 16px 12px;
-    }
-    .cart-total-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 12px 16px;
-    }
+    .cart-divider { height: 1px; background: var(--divider); margin: 16px 12px; }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: center; padding: 0 12px 16px; }
     .cart-total-label { font-family: 'Noto Serif JP', serif; font-size: 16px; color: var(--text-muted); }
     .cart-total-amount { font-family: 'Noto Serif JP', serif; font-size: 26px; font-weight: 700; color: var(--gold); }
-
-    .order-note {
-      margin: 0 12px 16px;
-      background: rgba(128,0,32,0.2);
-      border: 1px solid rgba(128,0,32,0.4);
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .confirm-btn {
-      margin: 0 12px 24px;
-      background: var(--crimson);
-      color: var(--text);
-      border: 2px solid var(--gold);
-      border-radius: 12px;
-      padding: 16px;
-      font-family: 'Noto Serif JP', serif;
-      font-size: 17px;
-      font-weight: 700;
-      text-align: center;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: all 0.2s;
-    }
+    .order-note { margin: 0 12px 16px; background: rgba(128,0,32,0.2); border: 1px solid rgba(128,0,32,0.4); border-radius: 8px; padding: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+    .confirm-btn { margin: 0 12px 24px; background: var(--crimson); color: var(--text); border: 2px solid var(--gold); border-radius: 12px; padding: 16px; font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 700; text-align: center; cursor: pointer; letter-spacing: 0.05em; transition: all 0.2s; }
     .confirm-btn:active { background: var(--crimson-l); }
     .confirm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* ===== COMPLETE SCREEN ===== */
-    .complete-screen {
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 40px 24px;
-      background: radial-gradient(ellipse at center, #2D1505 0%, var(--bg) 70%);
-    }
+    .complete-screen { justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: radial-gradient(ellipse at center, #2D1505 0%, var(--bg) 70%); }
     .complete-owl { font-size: 72px; margin-bottom: 20px; animation: bounce 0.6s ease; }
-    @keyframes bounce {
-      0% { transform: scale(0.5); opacity: 0; }
-      60% { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .complete-title {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
+    @keyframes bounce { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+    .complete-title { font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 12px; }
     .complete-msg { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 30px; }
-    .order-number-box {
-      background: var(--bg-card);
-      border: 2px solid var(--gold);
-      border-radius: 12px;
-      padding: 20px 32px;
-      margin-bottom: 32px;
-    }
+    .order-number-box { background: var(--bg-card); border: 2px solid var(--gold); border-radius: 12px; padding: 20px 32px; margin-bottom: 32px; }
     .order-number-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.1em; }
-    .order-number {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 36px;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.2em;
-    }
-    .back-to-top-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--divider);
-      color: var(--text-muted);
-      border-radius: 8px;
-      padding: 12px 28px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* ===== LOADING ===== */
-    .loading-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      flex-direction: column;
-      gap: 16px;
-    }
+    .order-number { font-family: 'Noto Serif JP', serif; font-size: 36px; font-weight: 700; color: var(--gold); letter-spacing: 0.2em; }
+    .back-to-top-btn { background: var(--bg-card); border: 1px solid var(--divider); color: var(--text-muted); border-radius: 8px; padding: 12px 28px; font-size: 14px; cursor: pointer; }
+    .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 999; flex-direction: column; gap: 16px; }
     .loading-overlay.active { display: flex; }
-    .spinner {
-      width: 40px; height: 40px;
-      border: 3px solid var(--divider);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+    .spinner { width: 40px; height: 40px; border: 3px solid var(--divider); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { font-size: 14px; color: var(--text-muted); }
-
-    /* ===== TOAST ===== */
-    .toast {
-      position: fixed;
-      bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: var(--bg-card);
-      border: 1px solid var(--gold);
-      color: var(--text);
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      opacity: 0;
-      transition: all 0.3s;
-      z-index: 500;
-      white-space: nowrap;
-    }
+    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--bg-card); border: 1px solid var(--gold); color: var(--text); padding: 10px 20px; border-radius: 8px; font-size: 13px; opacity: 0; transition: all 0.3s; z-index: 500; white-space: nowrap; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    /* ===== UID BADGE ===== */
-    .uid-badge {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-align: center;
-      padding: 4px;
-      opacity: 0.5;
-    }
+    .uid-badge { font-size: 10px; color: var(--text-muted); text-align: center; padding: 4px; opacity: 0.5; }
   </style>
 </head>
 <body>
 
-<!-- ===== SCREEN 1: 商品一覧 ===== -->
+<!-- SCREEN 1: 商品一覧 -->
 <div class="screen active" id="screen-menu">
   <div class="header">
     <div class="header-logo">🦉 MIKOSHIYA <span>セルフ注文</span></div>
     <div class="header-sub">COworking & CIRCLEkurking MIKOSHIYA</div>
   </div>
-
-  <div class="tabs" id="tabs">
-    <!-- JS で生成 -->
-  </div>
-
-  <div class="product-list" id="product-list">
-    <!-- JS で生成 -->
-  </div>
-
+  <div class="tabs" id="tabs"></div>
+  <div class="product-list" id="product-list"></div>
   <div class="uid-badge" id="uid-badge"></div>
 </div>
 
-<!-- ===== SCREEN 2: カート確認 ===== -->
+<!-- SCREEN 2: カート確認 -->
 <div class="screen" id="screen-cart">
   <div class="cart-header">
     <button class="back-btn" onclick="showScreen('menu')">← 戻る</button>
@@ -442,7 +128,7 @@
   </button>
 </div>
 
-<!-- ===== SCREEN 3: 注文完了 ===== -->
+<!-- SCREEN 3: 注文完了 -->
 <div class="screen complete-screen" id="screen-complete">
   <div class="complete-owl">🦉</div>
   <div class="complete-title">ご注文ありがとうございます！</div>
@@ -454,56 +140,50 @@
   <button class="back-to-top-btn" onclick="resetAndGoTop()">🍵 続けて注文する</button>
 </div>
 
-<!-- ===== カートバー ===== -->
+<!-- カートバー -->
 <div class="cart-bar" id="cart-bar">
   <div class="cart-bar-info">
     <div class="cart-bar-count" id="cart-bar-count">0点</div>
     <div class="cart-bar-total" id="cart-bar-total">¥0</div>
   </div>
-  <button class="cart-bar-btn" onclick="showScreen('cart')">
-    🛒 カートを見る
-  </button>
+  <button class="cart-bar-btn" onclick="showScreen('cart')">🛒 カートを見る</button>
 </div>
 
-<!-- ===== ローディング ===== -->
+<!-- ローディング -->
 <div class="loading-overlay" id="loading">
   <div class="spinner"></div>
   <div class="loading-text">注文を送信中...</div>
 </div>
 
-<!-- ===== トースト ===== -->
+<!-- トースト -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ============================================================
-// 設定 - ここを変更してください
+// 設定
 // ============================================================
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzi7IYrF2rLjrICNzuRTjtY4Zgy5Zq01NHiDg4ANrS77ECWi-Wm_UIGpKVg70bI-d6e/exec';
 
-// 商品マスター（変更可能）
 const PRODUCTS = {
   'ドリンク': [
     { id: 'D001', name: 'ブラックコーヒー', price: 140, emoji: '☕', desc: 'ホット or アイス' },
     { id: 'D003', name: '緑茶',             price: 100, emoji: '🍵', desc: 'アイス' },
-    { id: 'D003', name: 'カップラーメン',    price: 200, emoji: '🍜', desc: 'カップ焼きそば含む' },
-    
+    { id: 'D004', name: 'カップラーメン',    price: 200, emoji: '🍜', desc: 'カップ焼きそば含む' },
   ],
   'コワーキング': [
     { id: 'C003', name: 'MeetingRoom利用（30分）', price: 704, emoji: '🏢', desc: '複数名可' },
-    { id: 'C001', name: '白黒印刷',         price: 10,  emoji: '🖨️', desc: '1枚あたり（A4）' },
-    { id: 'C002', name: 'カラー印刷',        price: 50,  emoji: '🖨️', desc: '1枚あたり（A4）' },
-
+    { id: 'C001', name: '白黒印刷',                price: 10,  emoji: '🖨️', desc: '1枚あたり（A4）' },
+    { id: 'C002', name: 'カラー印刷',               price: 50,  emoji: '🖨️', desc: '1枚あたり（A4）' },
   ],
 };
 
 // ============================================================
 // 状態管理
 // ============================================================
-let cart = {};     // { productId: qty }
+let cart = {};
 let uid = '';
 let currentCategory = Object.keys(PRODUCTS)[0];
 
-// URLパラメータからUID取得
 const urlParams = new URLSearchParams(window.location.search);
 uid = urlParams.get('uid') || '';
 if (uid) {
@@ -515,13 +195,10 @@ if (uid) {
 // ============================================================
 function buildMenu() {
   const categories = Object.keys(PRODUCTS);
-
-  // タブ
   const tabsEl = document.getElementById('tabs');
   tabsEl.innerHTML = categories.map((cat, i) =>
     `<div class="tab ${i===0?'active':''}" onclick="switchCategory('${cat}', this)">${cat}</div>`
   ).join('');
-
   renderProducts(currentCategory);
 }
 
@@ -563,18 +240,11 @@ function productCard(p) {
 function changeQty(id, delta) {
   const current = cart[id] || 0;
   const next = Math.max(0, current + delta);
-  if (next === 0) {
-    delete cart[id];
-  } else {
-    cart[id] = next;
-  }
-
-  // UI更新
+  if (next === 0) { delete cart[id]; } else { cart[id] = next; }
   const qtyEl = document.getElementById(`qty-${id}`);
   if (qtyEl) qtyEl.textContent = next;
   const card = document.getElementById(`card-${id}`);
   if (card) card.classList.toggle('has-qty', next > 0);
-
   updateCartBar();
 }
 
@@ -605,18 +275,15 @@ function getCartSummary() {
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(`screen-${name}`).classList.add('active');
-
   const cartBar = document.getElementById('cart-bar');
   if (name === 'menu') {
     updateCartBar();
   } else {
     cartBar.classList.remove('visible');
   }
+  if (name === 'cart') renderCart();
+}
 
-  if (name === 'cart') renderCart();
-}
-  if (name === 'cart') renderCart();
-}
 function renderCart() {
   const allProducts = Object.values(PRODUCTS).flat();
   const itemsEl = document.getElementById('cart-items');
@@ -624,7 +291,6 @@ function renderCart() {
     const p = allProducts.find(x => x.id === id);
     return p ? { ...p, qty } : null;
   }).filter(Boolean);
-
   itemsEl.innerHTML = items.map(item => `
     <div class="cart-item">
       <div class="cart-item-emoji">${item.emoji}</div>
@@ -635,7 +301,6 @@ function renderCart() {
       <div class="cart-item-subtotal">${item.price === 0 ? '無料' : `¥${(item.price * item.qty).toLocaleString()}`}</div>
     </div>
   `).join('');
-
   const { total } = getCartSummary();
   document.getElementById('cart-total-display').textContent = `¥${total.toLocaleString()}`;
 }
@@ -647,22 +312,16 @@ async function submitOrder() {
   const btn = document.getElementById('confirm-btn');
   btn.disabled = true;
   document.getElementById('loading').classList.add('active');
-
   const allProducts = Object.values(PRODUCTS).flat();
   const items = Object.entries(cart).map(([id, qty]) => {
     const p = allProducts.find(x => x.id === id);
     return p ? { name: p.name, price: p.price, qty } : null;
   }).filter(Boolean);
-
   const { total } = getCartSummary();
-
-  // 注文番号をクライアントで生成
   const now = new Date();
   const orderNum = now.getHours().toString().padStart(2,'0')
                  + now.getMinutes().toString().padStart(2,'0')
                  + now.getSeconds().toString().padStart(2,'0');
-
-  // ★ GASが期待するフォーマット
   const payload = {
     type: 'webOrder',
     lineUID: uid,
@@ -670,7 +329,6 @@ async function submitOrder() {
     items: items,
     total: total,
   };
-
   try {
     const res = await fetch(GAS_URL, {
       method: 'POST',
@@ -678,7 +336,6 @@ async function submitOrder() {
       body: JSON.stringify(payload),
     });
     const data = await res.json();
-
     if (data.ok) {
       document.getElementById('order-number-display').textContent = '#' + orderNum;
       showScreen('complete');
@@ -693,19 +350,17 @@ async function submitOrder() {
     btn.disabled = false;
   }
 }
+
 // ============================================================
-// リセット
+// リセット / トースト
 // ============================================================
 function resetAndGoTop() {
   cart = {};
   updateCartBar();
-  buildMenu(); // 数量をリセット
+  buildMenu();
   showScreen('menu');
 }
 
-// ============================================================
-// トースト
-// ============================================================
 function showToast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
@@ -714,9 +369,8 @@ function showToast(msg) {
 }
 
 // ============================================================
-// 初期化
+// 初期化（入室チェック）
 // ============================================================
-// 入室チェックしてからメニューを表示
 async function init() {
   if (!uid) {
     showNotCheckedIn();
@@ -731,7 +385,7 @@ async function init() {
       showNotCheckedIn();
     }
   } catch(e) {
-    buildMenu(); // エラー時は通す
+    buildMenu();
   }
 }
 
@@ -749,3 +403,6 @@ function showNotCheckedIn() {
 }
 
 init();
+</script>
+</body>
+</html>
