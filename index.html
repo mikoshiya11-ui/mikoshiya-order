@@ -715,7 +715,36 @@ function showToast(msg) {
 // ============================================================
 // 初期化
 // ============================================================
-buildMenu();
-</script>
-</body>
-</html>
+// 入室チェックしてからメニューを表示
+async function init() {
+  if (!uid) {
+    showNotCheckedIn();
+    return;
+  }
+  try {
+    const res = await fetch(GAS_URL + '?fn=getStatusByLine&uid=' + uid);
+    const data = await res.json();
+    if (data.is_inside) {
+      buildMenu();
+    } else {
+      showNotCheckedIn();
+    }
+  } catch(e) {
+    buildMenu(); // エラー時は通す
+  }
+}
+
+function showNotCheckedIn() {
+  document.getElementById('screen-menu').innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px;text-align:center;background:var(--bg);">
+      <div style="font-size:64px;margin-bottom:20px;">🦉</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:20px;color:var(--gold);margin-bottom:12px;">入室が確認できません</div>
+      <div style="font-size:14px;color:var(--text-muted);line-height:1.7;">
+        セルフ注文は入室中のみご利用いただけます。<br>
+        LINEで「入室」と送信してからお試しください。
+      </div>
+    </div>
+  `;
+}
+
+init();
